@@ -1,5 +1,5 @@
 const readline = require("readline");
-
+const { logTime } = require("./openproject-client");
 run();
 
 async function run() {
@@ -68,5 +68,8 @@ async function run() {
 
   async function submitData() {
     // Submit Data to Openproject
+    const timelog = await logTime(log);
+    console.log(timelog);
+    return;
   }
 }
