@@ -1,6 +1,17 @@
 require("dotenv").config();
 const axios = require("axios").default;
 
+if (
+  process.env.OPENPROJECTAPI === undefined ||
+  process.env.OPENPROJECTAPI === ""
+)
+  throw new Error(
+    "MISSING OPENPROJECT API" +
+      "\n Please provide your Openproject API Key in your env file or your .bashrc" +
+      "\n See further information here: " +
+      "https://gitlab.ti.bfh.ch/digital-sustainability-lab/devs-no-code/-/blob/master/devs/getting-started/einrichtung-arbeitsplatz.md"
+  );
+
 const OPEN_PROJECT_URL = "https://openproject.fdn-tools.inf.unibe.ch/api/v3/";
 const headers = {
   headers: {
