@@ -26,15 +26,24 @@ async function run() {
 }
 
 async function logTime(timelog) {
-  const project = await getProjectId(timelog.project);
-  const firstWp = project.workPackages[0];
+  let wpId = process.env.TIMEWP;
+  if (wpId === undefined) {
+    wpId = getWpId(timelog);
+  }
+
   const timeLog = createTimeLog(
     timelog.hours,
     timelog.minutes,
     timelog.description,
-    firstWp.id
+    +wpId
   );
   return postTimeLog(timeLog);
+}
+
+async function getWpId(timelog) {
+  const project = await getProjectId(timelog.project);
+  const firstWp = project.workPackages[0];
+  return firstWp.id;
 }
 
 module.exports = {
