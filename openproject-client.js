@@ -1,16 +1,20 @@
 require("dotenv").config();
 const axios = require("axios").default;
 
-if (
-  process.env.OPENPROJECTAPI === undefined ||
-  process.env.OPENPROJECTAPI === ""
-)
-  throw new Error(
-    "MISSING OPENPROJECT API" +
-      "\n Please provide your Openproject API Key in your env file or your .bashrc" +
-      "\n See further information here: " +
-      "https://gitlab.ti.bfh.ch/digital-sustainability-lab/devs-no-code/-/blob/master/devs/getting-started/einrichtung-arbeitsplatz.md"
-  );
+verifyApiKey();
+
+function verifyApiKey() {
+  if (
+    process.env.OPENPROJECTAPI === undefined ||
+    process.env.OPENPROJECTAPI === ""
+  )
+    throw new Error(
+      "MISSING OPENPROJECT API" +
+        "\n Please provide your Openproject API Key in your env file or your .bashrc" +
+        "\n See further information here: " +
+        "https://gitlab.ti.bfh.ch/digital-sustainability-lab/devs-no-code/-/blob/master/devs/getting-started/einrichtung-arbeitsplatz.md"
+    );
+}
 
 const OPEN_PROJECT_URL = "https://openproject.fdn-tools.inf.unibe.ch/api/v3/";
 const headers = {
@@ -26,11 +30,8 @@ async function run() {
 }
 
 async function logTime(timelog) {
-  let wpId = process.env.TIMEWP;
-  if (wpId === undefined) {
-    wpId = getWpId(timelog);
-  }
-
+  verifyApiKey();
+  const wpId = await getWpId(timelog);
   const timeLog = createTimeLog(
     timelog.hours,
     timelog.minutes,
@@ -41,6 +42,7 @@ async function logTime(timelog) {
 }
 
 async function getWpId(timelog) {
+  if (process.env.TIMEWP !== undefined) return +process.env.TIMEWP;
   const project = await getProjectId(timelog.project);
   const firstWp = project.workPackages[0];
   return firstWp.id;
