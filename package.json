@@ -9,5 +9,15 @@
   "dependencies": {
     "axios": "^0.26.1",
     "dotenv": "^16.0.0"
-  }
+  },
+  "name": "time-tracker-git-hook",
+  "version": "1.0.0",
+  "main": "question.js",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.ti.bfh.ch:digital-sustainability-lab/time-tracker-git-hook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
